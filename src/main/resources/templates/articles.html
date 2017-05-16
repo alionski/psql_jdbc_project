@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>List of Articles</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+
+<p th:each="article: ${articles}">
+    <span th:text="'Article id: ' + ${article.key}"></span>
+    <a  th:text="${article.value}" th:href="@{/article/(id=${article.key})}">Headline</a>
+
+</p>
+</body>
+</html>
