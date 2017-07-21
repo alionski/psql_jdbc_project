@@ -1,10 +1,16 @@
 <!DOCTYPE HTML>
-<html>
-<head> 
-    <title>Dagblad</title>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title> Mörtfors Dagblad</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 </head>
 <body>
+
+<div>
+    <img src="images/MDlogo.png" alt="Mortfors Dagblad logo" title="Mortfors Dagblad logo"
+         th:src="@{/images/MDlogo.png}" th:alt-title="'Mortfors Dagblad logo'" />
+</div>
+
     <p>View article <a href="/articles">here</a></p>
 </body>
 </html>

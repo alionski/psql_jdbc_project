@@ -1,4 +1,4 @@
-package se.mah;
+package se.mah.business.entities;
 
 /**
  * Created by aliona on 2017-05-12.

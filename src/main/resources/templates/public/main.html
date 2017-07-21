@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Mörtfors Dagblad</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" type="text/css" media="all" href="../../static/css/mortfors.css" th:href="@{/css/mortfors.css}" />
+</head>
+
+<body>
+
+<div>
+    <a class="logo" href="main.html" th:href="@{/}">
+        <img src="../../static/images/MDlogo.png" alt="Mörtfors Dagblad logo" title="Mörtfors Dagblad logo"
+             th:src="@{/images/MDlogo.png}" th:alt-title="'Mortfors Dagblad logo'" /></a>
+</div>
+
+<div class="adminlogin">
+    <h2><a th:href="@{admin/adminpanel}">Admin Panel</a></h2>
+</div>
+
+<div>
+
+    <h1>Latest News</h1>
+    <p class="articlelist" th:each="article: ${articles}">
+        <!--<span th:text="'Article id: ' + ${article.key}"></span>-->
+        <h2 class="articlelist" > <a  th:text="${article.headline}" th:href="@{public/article(id=${article.id})}">Headline</a></h2><br/>
+        <span th:text="${article.lead} + ',   '">Lead Text</span>
+        <span th:text="${article.date}">Date Published</span>
+    </p>
+</div>
+
+    <!--<form th:action="@{/admin/adminpanel}"  th:object="${person}" method="post">-->
+        <!--<p>First name: <input type="text" th:field="*{first_name}" /></p>-->
+        <!--<p>Last name: <input type="text" th:field="*{last_name}" /></p>-->
+        <!--<input type="submit" />-->
+    <!--</form>-->
+
+</body>
+</html>

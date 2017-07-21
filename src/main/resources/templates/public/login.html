@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <title> Login Page </title>
+    <link rel="stylesheet" type="text/css" media="all" href="../../static/css/mortfors.css" th:href="@{/css/mortfors.css}" />
+</head>
+
+<body>
+
+<div>
+    <a class="logo" href="main.html" th:href="@{/}">
+        <img src="../../static/images/MDlogo.png" alt="Mörtfors Dagblad logo" title="Mörtfors Dagblad logo"
+             th:src="@{/images/MDlogo.png}" th:alt-title="'Mortfors Dagblad logo'" /></a>
+</div>
+
+<div th:if="${param.error}">
+    Invalid username and password.
+</div>
+<br/>
+
+<div th:if="${param.logout}">
+    You have been logged out.
+</div>
+<br/>
+
+<form th:action="@{/public/login}" method="post">
+    <div><label> Username: <input type="text" name="username"/> </label></div> <br/>
+    <div><label> Password: <input type="password" name="password"/> </label></div> <br/>
+    <div><input type="submit" value="Sign In"/></div>
+</form>
+</body>
+</html>

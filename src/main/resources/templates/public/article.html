@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Article</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" type="text/css" media="all" href="../../static/css/mortfors.css" th:href="@{/css/mortfors.css}" />
+</head>
+
+<body>
+
+<div>
+    <a class="logo" href="main.html" th:href="@{/}">
+        <img src="../../static/images/MDlogo.png" alt="Mörtfors Dagblad logo" title="Mörtfors Dagblad logo"
+             th:src="@{/images/MDlogo.png}" th:alt-title="'Mortfors Dagblad logo'" /></a>
+</div>
+
+   <div class="article">
+       <h1 th:text="${article.headline}">Article Headline</h1>
+       <p align="left" th:text="'AUTHOR: ' + ${article.author} + ' | ' + 'PUBLISHED ON: ' + ${article.date}" />
+       <img class="articleimg" th:src="${article.image}" th:alt="${article.altimage}" />
+        <p align="center" style="font-size:9px" th:text="${article.imgDescription}"/>
+        <p align="center" style="font-size:14px" th:text="${article.lead}" />
+        <p th:text="${article.body}" />
+   </div>
+
+   <h2 th:uless="${#lists.isEmpty(comments)}">Comments</h2>
+
+    <div>
+        <table class="comment" th:each="comment: ${comments}">
+            <tr class="commenthead">
+                <td th:text="'By: ' + ${comment.nickname}"> </td>
+                <td th:if="${#httpServletRequest.isUserInRole('ADMIN')}" class="commentdelete">
+                    <a href="index.html"
+                       th:href="@{/}">Delete</a>
+                </td>
+            </tr>
+            <tr class="commenthead">
+                <td th:text="'Posted on: '+ ${comment.comment_date}"></td>
+                <td th:if="${#httpServletRequest.isUserInRole('ADMIN')}" class="commentdelete"></td>
+            </tr>
+            <tr class="commenttext">
+                <td th:text="${comment.comment_text}"></td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="writecomment">
+        <h2>Write comment</h2>
+        <form th:href="@{/public/article/(id=${article.id})}" th:object="${comment}" method="post">
+            <p>Nickname: <input type="text" th:field="*{nickname}" /></p>
+            <!--<p>Comment: <input type="text" th:field="*{comment_text}" /></p>-->
+            <br/> <textarea name='comment' id='comment' th:field="*{comment_text}" ></textarea><br/>
+            <p><input type="submit" value="Submit" /> <input type="reset" value="Reset" /></p>
+        </form>
+    </div>
+</body>
+</html>
