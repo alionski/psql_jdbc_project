@@ -10,7 +10,7 @@ import org.springframework.context.annotation.ImportResource;
 
 
 @Configuration
-@EnableAutoConfiguration(exclude=HibernateJpaAutoConfiguration.class)
+@EnableAutoConfiguration
 @SpringBootApplication(scanBasePackages={"se.mah.web", "se.mah.business"})
 public class PsqlProjectApplication {
 

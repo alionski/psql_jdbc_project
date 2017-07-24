@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Author Panel</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" type="text/css" media="all" href="../../static/css/mortfors.css" th:href="@{/css/mortfors.css}" />
+</head>
+<body>
+
+<div id="topcontainer">
+    <table id="toptable">
+        <tr>
+            <td>
+                <div id="topleft">
+                    <a class="logo" href="main.html" th:href="@{/}">
+                        <img src="../../static/images/MDlogo.png" alt="Mörtfors Dagblad logo" title="Mörtfors Dagblad logo"
+                             th:src="@{/images/MDlogo.png}" th:alt-title="'Mortfors Dagblad logo'" /></a>
+                </div>
+            </td>
+            <td>
+                <div id="topright" class="adminlogin" >
+                    <h2 class="toprightpanel"><a class="toprightpanel" th:href="@{../admin/adminpanel}">Admin Panel</a></h2>
+                    <h2 class="toprightpanel"><a class="toprightpanel" th:href="@{../user/authorpanel}">Author Panel</a></h2>
+                </div>
+            </td>
+        </tr>
+    </table>
+</div>
+
+<div id="maincontainer">
+    <table id="maintable">
+        <tr>
+            <td>
+                <div id="mainleft">
+                    <h2 class="articlelist">Main categories: </h2>
+                    <ol class="sidelist" th:remove="all-but-first" th:each="maincat: ${maincats}">
+                        <li> <a href="main.html" th:text ="${maincat}" th:href="@{/articles(maincat=${maincat})}">Coffee</a></li>
+                        <li>Tea</li>
+                        <li>Milk</li>
+                    </ol>
+                </div>
+            </td>
+            <td class="maincentre">
+                <div id="maincentre" style="line-height:30px">
+
+                    <h1 class="article">Write New Article</h1>
+
+                    <form class="new_article" th:href="@{/user/new-article}" th:object="${article}, ${picture}" method="post">
+                        Article title: <br/>
+                        <input class="new_article" type="text" name="title"/><br/>
+                        Article lead:<br/>
+                        <input class="new_article" type="text" name="lead"/><br/>
+                        Choose author:
+                        <select name="author" th:field="*{authorId}" th:remove="all-but-first" >
+                            <option value="volvo"
+                                    th:each="author : ${authors}"
+                                    th:value="${author.person_id}" th:text="${author.first_name} + ' ' + ${author.last_name} " >Volvo</option>
+                            <option value="saab">Saab</option>
+                            <option value="fiat">Fiat</option>
+                            <option value="audi">Audi</option>
+                        </select><br/>
+                        Choose category:
+                        <select name="subcategory" th:field="*{subcatId}" th:remove="all-but-first">
+                            <option value="volvo"
+                                    th:each="subcat: ${subcats}"
+                                    th:value="${subcat.key}" th:text="${subcat.value}" >Volvo</option>
+                            <option value="saab">Saab</option>
+                            <option value="fiat">Fiat</option>
+                            <option value="audi">Audi</option>
+                        </select><br/>
+                        Article image URL: :<br/>
+                        <input class="new_article" type="text" name="imageurl" th:field="*{picture}"/><br/>
+                        Article image description: :<br/>
+                        <input class="new_article" type="text" name="imagedescription"/><br/>
+                        Article image alt-text: :<br/>
+                        <input class="new_article" type="text" name="altimage"/><br/>
+                        Article body:<br/>
+                        <textarea name="Text1" cols="90" rows="20"></textarea><br/>
+                        <p><input type="submit" value="Submit" /> <input type="reset" value="Reset"/></p>
+                    </form>
+                </div>
+            </td>
+            <td>
+                <div id="mainright">
+                    <h2 class="articlelist">Subcategories: </h2>
+                    <ol class="sidelist" th:remove="all-but-first" th:each="subcat: ${subcats}">
+                        <li> <a href="main.html" th:text ="${subcat.value}" th:href="@{/articles(subcat=${subcat.value})}">Coffee</a></li>
+                        <li>Tea</li>
+                        <li>Milk</li>
+                    </ol>
+                </div>
+            </td>
+        </tr>
+    </table>
+</div>
+
+</body>
+</html>

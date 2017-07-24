@@ -8,26 +8,68 @@
 
 <body>
 
-<div>
-    <a class="logo" href="main.html" th:href="@{/}">
-        <img src="../../static/images/MDlogo.png" alt="Mörtfors Dagblad logo" title="Mörtfors Dagblad logo"
-             th:src="@{/images/MDlogo.png}" th:alt-title="'Mortfors Dagblad logo'" /></a>
+<div id="topcontainer">
+    <table id="toptable">
+        <tr>
+            <td>
+                <div id="topleft">
+                    <a class="logo" href="main.html" th:href="@{/}">
+                        <img src="../../static/images/MDlogo.png" alt="Mörtfors Dagblad logo" title="Mörtfors Dagblad logo"
+                             th:src="@{/images/MDlogo.png}" th:alt-title="'Mortfors Dagblad logo'" /></a>
+                </div>
+            </td>
+            <td>
+                <div id="topright" class="adminlogin" >
+                    <h2 class="toprightpanel"><a class="toprightpanel" th:href="@{../admin/adminpanel}">Admin Panel</a></h2>
+                    <h2 class="toprightpanel"><a class="toprightpanel" th:href="@{../user/authorpanel}">Author Panel</a></h2>
+                </div>
+            </td>
+        </tr>
+    </table>
 </div>
 
-<div th:if="${param.error}">
-    Invalid username and password.
-</div>
-<br/>
+<table id="maintable">
+    <tr>
+        <td>
+            <div id="mainleft">
+                <h2 class="articlelist">Main categories: </h2>
+                <ol class="sidelist" th:remove="all-but-first" th:each="maincat: ${maincats}">
+                    <li> <a href="main.html" th:text ="${maincat}" th:href="@{/articles(maincat=${maincat})}">Coffee</a></li>
+                    <li>Tea</li>
+                    <li>Milk</li>
+                </ol>
+            </div>
+        </td>
+        <td class="maincentre">
+            <div id="maincentre">
+                <div th:if="${param.error}">
+                    Invalid username and password.
+                </div>
+                <br/>
 
-<div th:if="${param.logout}">
-    You have been logged out.
-</div>
-<br/>
+                <div th:if="${param.logout}">
+                    You have been logged out.
+                </div>
+                <br/>
 
-<form th:action="@{/public/login}" method="post">
-    <div><label> Username: <input type="text" name="username"/> </label></div> <br/>
-    <div><label> Password: <input type="password" name="password"/> </label></div> <br/>
-    <div><input type="submit" value="Sign In"/></div>
-</form>
+                <form th:action="@{/public/login}" method="post">
+                    <div><label> Username: <input type="text" name="username"/> </label></div> <br/>
+                    <div><label> Password: <input type="password" name="password"/> </label></div> <br/>
+                    <div><input type="submit" value="Sign In"/></div>
+                </form>
+            </div>
+        </td>
+        <td>
+            <div id="mainright">
+                <h2 class="articlelist">Subcategories: </h2>
+                <ol class="sidelist" th:remove="all-but-first" th:each="subcat: ${subcats}">
+                    <li> <a href="main.html" th:text ="${subcat.value}" th:href="@{/articles(subcat=${subcat.value})}">Coffee</a></li>
+                    <li>Tea</li>
+                    <li>Milk</li>
+                </ol>
+            </div>
+        </td>
+    </tr>
+</table>
 </body>
 </html>

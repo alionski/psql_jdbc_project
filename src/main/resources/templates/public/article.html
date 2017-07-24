@@ -8,50 +8,101 @@
 
 <body>
 
-<div>
-    <a class="logo" href="main.html" th:href="@{/}">
-        <img src="../../static/images/MDlogo.png" alt="Mörtfors Dagblad logo" title="Mörtfors Dagblad logo"
-             th:src="@{/images/MDlogo.png}" th:alt-title="'Mortfors Dagblad logo'" /></a>
+<div id="topcontainer">
+    <table id="toptable">
+        <tr>
+            <td>
+                <div id="topleft">
+                    <a class="logo" href="main.html" th:href="@{/}">
+                        <img src="../../static/images/MDlogo.png" alt="Mörtfors Dagblad logo" title="Mörtfors Dagblad logo"
+                             th:src="@{/images/MDlogo.png}" th:alt-title="'Mortfors Dagblad logo'" /></a>
+                </div>
+            </td>
+            <td>
+                <div id="topright" class="adminlogin" >
+                    <h2 class="toprightpanel"><a class="toprightpanel" th:href="@{../admin/adminpanel}">Admin Panel</a></h2>
+                    <h2 class="toprightpanel"><a class="toprightpanel" th:href="@{../user/authorpanel}">Author Panel</a></h2>
+                </div>
+            </td>
+        </tr>
+    </table>
 </div>
 
-   <div class="article">
-       <h1 th:text="${article.headline}">Article Headline</h1>
-       <p align="left" th:text="'AUTHOR: ' + ${article.author} + ' | ' + 'PUBLISHED ON: ' + ${article.date}" />
-       <img class="articleimg" th:src="${article.image}" th:alt="${article.altimage}" />
-        <p align="center" style="font-size:9px" th:text="${article.imgDescription}"/>
-        <p align="center" style="font-size:14px" th:text="${article.lead}" />
-        <p th:text="${article.body}" />
-   </div>
+<div id="maincontainer">
+    <table id="maintable">
+        <tr>
+            <td>
+                <div id="mainleft">
+                    <h2 class="articlelist">Main categories: </h2>
+                    <ol class="sidelist" th:remove="all-but-first" th:each="maincat: ${maincats}">
+                        <li> <a href="main.html" th:text ="${maincat}" th:href="@{/articles(maincat=${maincat})}">Coffee</a></li>
+                        <li>Tea</li>
+                        <li>Milk</li>
+                    </ol>
+                </div>
+            </td>
+            <td class="maincentre">
+                <div id="maincentre">
+                    <div class="article">
+                        <h1 class="article" th:text="${article.headline}">Article Headline</h1>
+                        <p> <span> AUTHOR:
+           <a href="main.html" th:text="${article.authorName} + ' ' + ${article.authorSurname}" th:href="@{/articles(searchAuthor=${article.authorId})}" >Author Name</a> </span>
+                            <span th:text="'| PUBLISHED ON: ' + ${article.date}"> | PUBLISHED ON: Date </span>
+                        </p>
+                        <p> Main category:
+                            <a href="main.html" th:text ="${article.maincat}" th:href="@{/articles(maincat=${article.maincat})}" > maincat </a></p>
+                        <p> Subcategory:
+                            <a href="main.html" th:text ="${article.subcat}" th:href="@{/articles(subcat=${article.subcat})}" > subcat </a></p>
+                        <img class="articleimg" th:src="${article.image}" th:alt="${article.altimage}" />
+                        <p align="center" style="font-size:9px" th:text="${article.imgDescription}"/>
+                        <p align="center" style="font-size:14px" th:text="${article.lead}" />
+                        <p th:text="${article.body}" />
+                    </div>
 
-   <h2 th:uless="${#lists.isEmpty(comments)}">Comments</h2>
+                    <h2 class="article" th:unless="${#lists.isEmpty(comments)}">Comments</h2>
 
-    <div>
-        <table class="comment" th:each="comment: ${comments}">
-            <tr class="commenthead">
-                <td th:text="'By: ' + ${comment.nickname}"> </td>
-                <td th:if="${#httpServletRequest.isUserInRole('ADMIN')}" class="commentdelete">
-                    <a href="index.html"
-                       th:href="@{/}">Delete</a>
-                </td>
-            </tr>
-            <tr class="commenthead">
-                <td th:text="'Posted on: '+ ${comment.comment_date}"></td>
-                <td th:if="${#httpServletRequest.isUserInRole('ADMIN')}" class="commentdelete"></td>
-            </tr>
-            <tr class="commenttext">
-                <td th:text="${comment.comment_text}"></td>
-            </tr>
-        </table>
-    </div>
+                    <div>
+                        <table class="comment" th:each="comment: ${comments}">
+                            <tr class="commenthead">
+                                <td th:text="'By: ' + ${comment.nickname}"> </td>
+                                <td th:if="${#httpServletRequest.isUserInRole('ADMIN')}" class="commentdelete">
+                                    <a href="index.html"
+                                       th:href="@{/public/article(id=${article.id},deleteComment=${comment.id})}">Delete</a>
+                                </td>
+                            </tr>
+                            <tr class="commenthead">
+                                <td th:text="'Posted on: '+ ${comment.comment_date}"></td>
+                                <td th:if="${#httpServletRequest.isUserInRole('ADMIN')}" class="commentdelete"></td>
+                            </tr>
+                            <tr class="commenttext">
+                                <td th:text="${comment.comment_text}"></td>
+                            </tr>
+                        </table>
+                    </div>
 
-    <div class="writecomment">
-        <h2>Write comment</h2>
-        <form th:href="@{/public/article/(id=${article.id})}" th:object="${comment}" method="post">
-            <p>Nickname: <input type="text" th:field="*{nickname}" /></p>
-            <!--<p>Comment: <input type="text" th:field="*{comment_text}" /></p>-->
-            <br/> <textarea name='comment' id='comment' th:field="*{comment_text}" ></textarea><br/>
-            <p><input type="submit" value="Submit" /> <input type="reset" value="Reset" /></p>
-        </form>
-    </div>
+                    <div class="writecomment">
+                        <h2 class="article">Write comment</h2>
+                        <form th:href="@{/public/article(id=${article.id})}" th:object="${comment}" method="post">
+                            <p>Nickname: <input type="text" th:field="*{nickname}" /></p>
+                            <!--<p>Comment: <input type="text" th:field="*{comment_text}" /></p>-->
+                            <br/> <textarea name='comment' id='comment' cols="60" rows="5" th:field="*{comment_text}" ></textarea><br/>
+                            <p><input type="submit" value="Submit" /> <input type="reset" value="Reset" /></p>
+                        </form>
+                    </div>
+                </div>
+            </td>
+            <td>
+                <div id="mainright">
+                    <h2 class="articlelist">Subcategories: </h2>
+                    <ol class="sidelist" th:remove="all-but-first" th:each="subcat: ${subcats}">
+                        <li> <a href="main.html" th:text ="${subcat.value}" th:href="@{/articles(subcat=${subcat.value})}">Coffee</a></li>
+                        <li>Tea</li>
+                        <li>Milk</li>
+                    </ol>
+                </div>
+            </td>
+        </tr>
+    </table>
+</div>
 </body>
 </html>

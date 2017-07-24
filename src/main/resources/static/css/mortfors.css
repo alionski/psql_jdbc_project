@@ -5,14 +5,101 @@ html {
 body {
     font-family: 'DejaVu Sans', Arial, Helvetica;
     font-size: 12px;
-    background-color: #ffffff;
-    border: 1px solid #cccccc;
-    margin: 0px auto;
-    padding: 20px 20px;
-    width: 850px;
+    /*background-color: #ffffff;*/
+    /*border: 1px solid #cccccc;*/
+    padding: 5px 5px;
+    /*width: 850px;*/
 }
 
-h1 {
+#topcontainer {
+    margin-right: auto;
+    margin-left: auto;
+    height: 100%;
+    width: 840px;
+}
+
+#toptable {
+    border-radius: 10px;
+    background-color: #ffffff;
+    width: 840px;
+}
+
+#toptable, #toptable tr, #toptable td {
+    border: 0;
+}
+
+#topleft, #topright {
+    display: inline-block;
+    *display: inline;
+    zoom: 1;
+    vertical-align: top;
+    font-size: 12px;
+}
+
+#topleft {
+    width: 24%;
+}
+
+#topright {
+    width: 74%;
+}
+
+#maincontainer {
+    margin-bottom: auto;
+    padding: 5px;
+    margin-right: auto;
+    margin-left: auto;
+    height: 100%;
+}
+
+#maintable {
+    width: 100%;
+}
+
+#maintable #mainleft h2 {
+    padding-top: 100px;
+}
+
+#maintable #mainright h2 {
+    padding-top: 100px;
+}
+
+#maintable, #maintable tr, #maintable td {
+    border: 0;
+}
+
+/*#mainleft, #maincentre, #mainright {*/
+    /*display: inline-block;*/
+    /**display: inline;*/
+    /*zoom: 1;*/
+    /*vertical-align: top;*/
+/*}*/
+
+#mainleft {
+    background-color: #f0f0f0;
+}
+
+#maincentre {
+    border-radius: 10px;
+    background-color: #ffffff;
+    width: 800px;
+    padding: 0px 20px 0px 20px;
+    position: absolute;
+    left: 0;
+    right: 0;
+    margin: auto;
+}
+
+#mainright {
+    background-color: #f0f0f0;
+    text-align: center;
+}
+
+input.new_article {
+    width: 300px;
+}
+
+h1.article {
     font-size: 22px;
     color: #99cc33;
     margin-top: 50px;
@@ -20,7 +107,18 @@ h1 {
     text-align: center;
 }
 
-h2 {
+h2.toprightpanel {
+    font-size: 14px;
+}
+
+h2.articlelisttitle {
+    font-size: 16px;
+    color: #99cc33;
+    margin-top: 10px;
+    margin-bottom: 5px;
+}
+
+h2.article {
     margin-top: 50px;
     margin-bottom: 30px;
 }
@@ -38,6 +136,10 @@ tr.odd td {
 
 td.number {
     text-align: right;
+}
+
+td.maincentre {
+    width: 850px;
 }
 
 tr.commenttext {
@@ -128,13 +230,22 @@ ol > li {
     margin-top: 10px;
 }
 
+ol.sidelist {
+    list-style-type:none;
+}
+
 a {
     text-decoration: none;
     color: #777;
     border-bottom: 1px dotted #777;
 }
 
+a.toprightpanel {
+    color: #006400;
+}
+
 a.logo {
+    color: unset;
     border-bottom: none;
 }
 

@@ -63,7 +63,7 @@ public class DatabaseConnector {
             while(rs2.next()) {
                 String author_name = rs2.getString("first_name");
                 String author_surname = rs2.getString("last_name");
-                article.setAuthor(author_name + " " + author_surname);
+//                article.setAuthor(author_name + " " + author_surname);
             }
 
             rs2.close();

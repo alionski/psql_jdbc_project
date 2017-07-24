@@ -9,15 +9,50 @@ public class Article {
     private String headline;
     private String body;
     private String date;
-    private String author;
     private String imgDescription;
     private String subcat;
     private String maincat;
     private String image;
     private String altimage;
-
+    private long authorId;
+    private String authorName;
+    private String authorSurname;
+    private int subcatId;
 
     public Article() { }
+
+    public int getSubcatId() {
+        return subcatId;
+    }
+
+    public void setSubcatId(int subcatId) {
+        this.subcatId = subcatId;
+    }
+
+    public long getAuthorId() {
+        return authorId;
+    }
+
+    public void setAuthorId(long authorId) {
+        this.authorId = authorId;
+    }
+
+    public String getAuthorName() {
+        return authorName;
+    }
+
+    public void setAuthorName(String authorName) {
+        this.authorName = authorName;
+    }
+
+    public String getAuthorSurname() {
+        return authorSurname;
+    }
+
+    public void setAuthorSurname(String authorSurname) {
+        this.authorSurname = authorSurname;
+    }
+
 
     public int getId() {
         return id;
@@ -65,15 +100,6 @@ public class Article {
 
     public void setImgDescription(String imgDescription) {
         this.imgDescription = imgDescription;
-    }
-
-
-    public String getAuthor() {
-        return author;
-    }
-
-    public void setAuthor(String author) {
-        this.author = author;
     }
 
     public String getSubcat() {

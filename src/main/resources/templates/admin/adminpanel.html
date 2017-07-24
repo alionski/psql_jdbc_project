@@ -8,60 +8,108 @@
 
 <body>
 
-<div>
-    <a class="logo" href="main.html" th:href="@{/}">
-        <img src="../../static/images/MDlogo.png" alt="Mörtfors Dagblad logo" title="Mörtfors Dagblad logo"
-             th:src="@{/images/MDlogo.png}" th:alt-title="'Mortfors Dagblad logo'" /></a>
+<div id="topcontainer">
+    <table id="toptable">
+        <tr>
+            <td>
+                <div id="topleft">
+                    <a class="logo" href="main.html" th:href="@{/}">
+                        <img src="../../static/images/MDlogo.png" alt="Mörtfors Dagblad logo" title="Mörtfors Dagblad logo"
+                             th:src="@{/images/MDlogo.png}" th:alt-title="'Mortfors Dagblad logo'" /></a>
+                </div>
+            </td>
+            <td>
+                <div id="topright" class="adminlogin" >
+                    <h2 class="toprightpanel"><a class="toprightpanel" th:href="@{../admin/adminpanel}">Admin Panel</a></h2>
+                    <h2 class="toprightpanel"><a class="toprightpanel" th:href="@{../user/authorpanel}">Author Panel</a></h2>
+                </div>
+            </td>
+        </tr>
+    </table>
 </div>
 
-    <p th:inline="text">Logged in as [[${#httpServletRequest.remoteUser}]]</p>
-    <form th:action="@{/logout}" method="post">
-        <input type="submit" value="Sign Out"/>
-    </form>
+<div id="maincontainer">
 
-    <p th:each="article: ${articles}">
-        <span th:text="'Date: ' + ${article.date}"></span>
-        <a  th:text="${article.headline}" th:href="@{/public/article(id=${article.id})}">Headline</a>
-    </p>
+    <table id="maintable">
+        <tr>
+            <td>
+                <div id="mainleft">
+                    <h2 class="articlelist">Main categories: </h2>
+                    <ol class="sidelist" th:remove="all-but-first" th:each="maincat: ${maincats}">
+                        <li> <a href="main.html" th:text ="${maincat}" th:href="@{/articles(maincat=${maincat})}">Coffee</a></li>
+                        <li>Tea</li>
+                        <li>Milk</li>
+                    </ol>
+                </div>
+            </td>
+            <td class="maincentre">
+                <div id="maincentre">
+                    <p th:inline="text">Logged in as [[${#httpServletRequest.remoteUser}]]</p>
+                    <form th:action="@{/logout}" method="post">
+                        <input type="submit" value="Sign Out"/>
+                    </form>
 
-    <h2>Employee list</h2>
-    <table>
-        <thead>
-         <tr>
-             <th>#</th>
-             <th>Name Surname</th>
-             <th> Personal number</th>
-             <th>Note</th>
-         </tr>
-        </thead>
-            <tbody th:remove="all-but-first">
-                <tr th:each="empl,iterStat : ${employeeList}">
-                    <td th:unless="${#lists.isEmpty(employeeList)}" th:text="${iterStat.count}">1</td>
-                    <td>
-                        <a th:text="${empl.first_name} + ' ' + ${empl.last_name}" href="#" th:href="@{/admin/employee(id=${empl.person_id},action='view')}"> Karl Karlsson </a>
-                    </td>
-                    <td th:text="${empl.person_id}">19001010-1234</td>
-                    <td th:text="${empl.note}">Animals</td>
-                </tr>
-                <tr>
-                    <td>2</td>
-                    <td>John Johnsson</td>
-                    <td>19002020-1234</td>
-                    <td>Sport</td>
-                </tr>
-                <tr>
-                    <td>3</td>
-                    <td>Jan Jansson</td>
-                    <td>19880505-1234</td>
-                    <td>Celebs</td>
-                </tr>
-                <tr>
-                    <td>4</td>
-                    <td>Rasmus Rasmusson</td>
-                    <td>19700707-1234</td>
-                    <td>Politics</td>
-                </tr>
-        </tbody>
+                    <p th:each="article: ${articles}">
+                        <span th:text="'Date: ' + ${article.date}"></span>
+                        <a  th:text="${article.headline}" th:href="@{/public/article(id=${article.id})}">Headline</a>
+                    </p>
+
+                    <h2>Employee list</h2>
+                    <table>
+                        <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Name Surname</th>
+                            <th> Personal number</th>
+                            <th>Note</th>
+                        </tr>
+                        </thead>
+                        <tbody th:remove="all-but-first">
+                        <tr th:each="empl,iterStat : ${employeeList}">
+                            <td th:unless="${#lists.isEmpty(employeeList)}" th:text="${iterStat.count}">1</td>
+                            <td>
+                                <a th:text="${empl.first_name} + ' ' + ${empl.last_name}" href="#" th:href="@{/admin/employee(id=${empl.person_id},action='view')}"> Karl Karlsson </a>
+                            </td>
+                            <td th:text="${empl.person_id}">19001010-1234</td>
+                            <td th:text="${empl.note}">Animals</td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>John Johnsson</td>
+                            <td>19002020-1234</td>
+                            <td>Sport</td>
+                        </tr>
+                        <tr>
+                            <td>3</td>
+                            <td>Jan Jansson</td>
+                            <td>19880505-1234</td>
+                            <td>Celebs</td>
+                        </tr>
+                        <tr>
+                            <td>4</td>
+                            <td>Rasmus Rasmusson</td>
+                            <td>19700707-1234</td>
+                            <td>Politics</td>
+                        </tr>
+                        </tbody>
+                    </table>
+
+
+
+                </div>
+            </td>
+            <td>
+                <div id="mainright">
+                    <h2 class="articlelist">Subcategories: </h2>
+                    <ol class="sidelist" th:remove="all-but-first" th:each="subcat: ${subcats}">
+                        <li> <a href="main.html" th:text ="${subcat.value}" th:href="@{/articles(subcat=${subcat.value})}">Coffee</a></li>
+                        <li>Tea</li>
+                        <li>Milk</li>
+                    </ol>
+                </div>
+            </td>
+        </tr>
     </table>
+</div>
 </body>
 </html>
