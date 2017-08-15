@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" type="text/css" media="all" href="../../static/css/mortfors.css" th:href="@{/css/mortfors.css}" />
+</head>
+<body>
+
+<td th:fragment="left">
+    <div id="mainleft">
+        <ol class="sidelist" >
+            <li>
+                <h2 class="articlelist">Main categories</h2>
+                <ol class="sidelist" th:remove="all-but-first" th:each="mainCat: ${maincats}">
+                    <li> <a href="main.html" th:text ="${mainCat}" th:href="@{/articles(mainCat=${mainCat})}">Coffee</a></li>
+                    <li>Tea</li>
+                    <li>Milk</li>
+                </ol>
+            </li>
+        </ol>
+    </div>
+</td>
+
+</body>
+</html>

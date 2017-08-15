@@ -7,7 +7,6 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
-import se.mah.business.entities.Category;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -52,7 +51,7 @@ public class CategoryRepository {
         }
     };
 
-//    private static final RowMapper<Category> subCatMapper = new RowMapper<Category>() {
+//    private static final RowMapper<Subcategory> subCatMapper = new RowMapper<Subcategory>() {
 //        public HashMap<Integer, String> mapRow(ResultSet rs, int rowNum) throws SQLException {
 //            HashMap<Integer, String> subcat = new HashMap<Integer, String>();
 //            subcat.put(Integer.valueOf(rs.getInt("sub_cat_text")),

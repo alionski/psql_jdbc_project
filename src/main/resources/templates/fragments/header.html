@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" type="text/css" media="all" href="../../static/css/mortfors.css" th:href="@{/css/mortfors.css}" />
+</head>
+<body>
+
+<div id="topcontainer" th:fragment="header">
+    <table id="toptable">
+        <tr>
+            <td>
+                <div id="topleft">
+                    <a class="logo" href="../public/main.html" th:href="@{/}">
+                        <img src="../../static/images/MDlogo.png" alt="Mörtfors Dagblad logo" title="Mörtfors Dagblad logo"
+                             th:src="@{/images/MDlogo.png}" th:alt-title="'Mortfors Dagblad logo'" /></a>
+                </div>
+            </td>
+            <td>
+                <div id="topright" class="adminlogin" >
+                    <h3 class="toprightpanel"><a class="toprightpanel" th:href="@{../admin/adminpanel}">Admin Panel</a></h3>
+                    <h3 class="toprightpanel"><a class="toprightpanel" th:href="@{../user/authorpanel}">Author Panel</a></h3>
+                </div>
+            </td>
+        </tr>
+    </table>
+</div>
+
+</body>
+</html>

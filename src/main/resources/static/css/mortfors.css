@@ -1,14 +1,11 @@
 html {
-    background-color: #f0f0f0;
+    background-color: #bdbdbd;
 }
 
 body {
     font-family: 'DejaVu Sans', Arial, Helvetica;
     font-size: 12px;
-    /*background-color: #ffffff;*/
-    /*border: 1px solid #cccccc;*/
     padding: 5px 5px;
-    /*width: 850px;*/
 }
 
 #topcontainer {
@@ -54,45 +51,51 @@ body {
 
 #maintable {
     width: 100%;
+    height:100%;
+    min-height:100%;
 }
 
 #maintable #mainleft h2 {
+    text-align: left;
     padding-top: 100px;
+    color: #006400;
 }
 
 #maintable #mainright h2 {
+    text-align: right;
     padding-top: 100px;
+    color: #006400;
 }
 
 #maintable, #maintable tr, #maintable td {
     border: 0;
+    min-height:100%;
 }
-
-/*#mainleft, #maincentre, #mainright {*/
-    /*display: inline-block;*/
-    /**display: inline;*/
-    /*zoom: 1;*/
-    /*vertical-align: top;*/
-/*}*/
 
 #mainleft {
-    background-color: #f0f0f0;
-}
-
-#maincentre {
-    border-radius: 10px;
-    background-color: #ffffff;
-    width: 800px;
-    padding: 0px 20px 0px 20px;
-    position: absolute;
-    left: 0;
-    right: 0;
-    margin: auto;
+    color: #006400;
+    background-color: #bdbdbd;
 }
 
 #mainright {
-    background-color: #f0f0f0;
-    text-align: center;
+    color: #006400;
+    background-color: #bdbdbd;
+    text-align: right;
+}
+
+#mainleft ol {
+    text-align: left;
+    padding-left: 0;
+}
+
+#login-box {
+    width: 300px;
+    padding: 20px;
+    margin: 100px auto;
+    background: #fff;
+    -webkit-border-radius: 2px;
+    -moz-border-radius: 2px;
+    border: 2px solid #bdbdbd;
 }
 
 input.new_article {
@@ -108,26 +111,21 @@ h1.article {
 }
 
 h2.toprightpanel {
+    margin-top: 50px;
+    margin-bottom: 30px;
     font-size: 14px;
 }
 
-h2.articlelisttitle {
-    font-size: 16px;
-    color: #99cc33;
-    margin-top: 10px;
-    margin-bottom: 5px;
-}
-
-h2.article {
-    margin-top: 50px;
-    margin-bottom: 30px;
-}
-
-h2.articlelist {
-    font-size: 16px;
-    color: #99cc33;
+h3.articlelisttitle {
+    text-align: left;
     margin-top: 20px;
-    margin-bottom: 5px;
+    margin-bottom:5px;
+}
+
+h2 {
+    text-align: center;
+    font-size: 16px;
+    color: #99cc33;
 }
 
 tr.odd td {
@@ -139,7 +137,14 @@ td.number {
 }
 
 td.maincentre {
-    width: 850px;
+    border-radius: 10px;
+    position: absolute;
+    background-color: #ffffff;
+    padding: 30px;
+    left: 0;
+    right: 0;
+    margin: auto;
+    width: 800px;
 }
 
 tr.commenttext {
@@ -159,6 +164,7 @@ table {
     width: 100%;
     border: 1px solid #000;
     border-collapse: collapse;
+    padding-bottom: 10px
 }
 
 table.comment {
@@ -167,7 +173,7 @@ table.comment {
     border-collapse: collapse;
 }
 
-div.writecomment {
+form.writecomment {
     width: 100%;
     padding: 20px 20px;
     text-align: center;
@@ -204,11 +210,6 @@ table th {
 table > tbody > tr > td > a, table > tbody > tr > td > a:hover {
     text-decoration: none;
     font-weight: bold;
-    background-color: #352726;
-    padding: 2px 10px;
-    color: #f0faaa;
-    margin-left: 10px;
-    text-transform: uppercase;
     border: 0px;
 }
 
@@ -261,6 +262,14 @@ a:hover {
 img.articleimg {
     display: block;
     width:540px; /* you can use % */
+    height: auto;
+    margin-left: auto;
+    margin-right: auto
+}
+
+img.thumbnail {
+    display: block;
+    width:150px; /* you can use % */
     height: auto;
     margin-left: auto;
     margin-right: auto

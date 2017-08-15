@@ -4,26 +4,25 @@ package se.mah.business.entities;
  * Created by aliona on 2017-07-23.
  */
 public class Picture {
-    private int picture_id;
-    private String altimage;
+    private int pictureId;
+    private String alttext;
     private String url;
+    private String descriptionForArticle;
 
     public Picture() {  }
 
-    public int getPicture_id() {
-        return picture_id;
+    public int getPictureId() {return pictureId; }
+
+    public void setPictureId(int pictureId) {
+        this.pictureId = pictureId;
     }
 
-    public void setPicture_id(int picture_id) {
-        this.picture_id = picture_id;
+    public String getAlttext() {
+        return alttext;
     }
 
-    public String getAltimage() {
-        return altimage;
-    }
-
-    public void setAltimage(String altimage) {
-        this.altimage = altimage;
+    public void setAlttext(String alttext) {
+        this.alttext = alttext;
     }
 
     public String getUrl() {
@@ -32,5 +31,13 @@ public class Picture {
 
     public void setUrl(String url) {
         this.url = url;
+    }
+
+    public String getDescriptionForArticle() {
+        return descriptionForArticle;
+    }
+
+    public void setDescriptionForArticle(String descriptionForArticle) {
+        this.descriptionForArticle = descriptionForArticle;
     }
 }

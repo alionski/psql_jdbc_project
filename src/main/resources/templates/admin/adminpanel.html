@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+<script src="https://www.w3schools.com/lib/w3.js"></script>
 <head>
     <title>Admin Panel</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -8,108 +9,124 @@
 
 <body>
 
-<div id="topcontainer">
-    <table id="toptable">
-        <tr>
-            <td>
-                <div id="topleft">
-                    <a class="logo" href="main.html" th:href="@{/}">
-                        <img src="../../static/images/MDlogo.png" alt="Mörtfors Dagblad logo" title="Mörtfors Dagblad logo"
-                             th:src="@{/images/MDlogo.png}" th:alt-title="'Mortfors Dagblad logo'" /></a>
-                </div>
-            </td>
-            <td>
-                <div id="topright" class="adminlogin" >
-                    <h2 class="toprightpanel"><a class="toprightpanel" th:href="@{../admin/adminpanel}">Admin Panel</a></h2>
-                    <h2 class="toprightpanel"><a class="toprightpanel" th:href="@{../user/authorpanel}">Author Panel</a></h2>
-                </div>
-            </td>
-        </tr>
-    </table>
-</div>
+    <div w3-include-html="../fragments/header.html" th:replace="fragments/header :: header"></div>
 
-<div id="maincontainer">
+    <div id="maincontainer">
 
-    <table id="maintable">
-        <tr>
-            <td>
-                <div id="mainleft">
-                    <h2 class="articlelist">Main categories: </h2>
-                    <ol class="sidelist" th:remove="all-but-first" th:each="maincat: ${maincats}">
-                        <li> <a href="main.html" th:text ="${maincat}" th:href="@{/articles(maincat=${maincat})}">Coffee</a></li>
-                        <li>Tea</li>
-                        <li>Milk</li>
-                    </ol>
-                </div>
-            </td>
-            <td class="maincentre">
-                <div id="maincentre">
-                    <p th:inline="text">Logged in as [[${#httpServletRequest.remoteUser}]]</p>
-                    <form th:action="@{/logout}" method="post">
-                        <input type="submit" value="Sign Out"/>
-                    </form>
+        <table id="maintable">
+            <tr>
 
-                    <p th:each="article: ${articles}">
-                        <span th:text="'Date: ' + ${article.date}"></span>
-                        <a  th:text="${article.headline}" th:href="@{/public/article(id=${article.id})}">Headline</a>
-                    </p>
+                <td w3-include-html="../fragments/left.html" id="mainleft" th:replace="fragments/left :: left"> </td>
 
-                    <h2>Employee list</h2>
-                    <table>
-                        <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>Name Surname</th>
-                            <th> Personal number</th>
-                            <th>Note</th>
-                        </tr>
-                        </thead>
-                        <tbody th:remove="all-but-first">
-                        <tr th:each="empl,iterStat : ${employeeList}">
-                            <td th:unless="${#lists.isEmpty(employeeList)}" th:text="${iterStat.count}">1</td>
-                            <td>
-                                <a th:text="${empl.first_name} + ' ' + ${empl.last_name}" href="#" th:href="@{/admin/employee(id=${empl.person_id},action='view')}"> Karl Karlsson </a>
-                            </td>
-                            <td th:text="${empl.person_id}">19001010-1234</td>
-                            <td th:text="${empl.note}">Animals</td>
-                        </tr>
-                        <tr>
-                            <td>2</td>
-                            <td>John Johnsson</td>
-                            <td>19002020-1234</td>
-                            <td>Sport</td>
-                        </tr>
-                        <tr>
-                            <td>3</td>
-                            <td>Jan Jansson</td>
-                            <td>19880505-1234</td>
-                            <td>Celebs</td>
-                        </tr>
-                        <tr>
-                            <td>4</td>
-                            <td>Rasmus Rasmusson</td>
-                            <td>19700707-1234</td>
-                            <td>Politics</td>
-                        </tr>
-                        </tbody>
-                    </table>
+                <td class="maincentre">
+                    <div id="maincentre">
+                        <p th:inline="text">Logged in as [[${#httpServletRequest.remoteUser}]]</p>
+                        <form th:action="@{/logout}" method="post">
+                            <input type="submit" value="Sign Out"/>
+                        </form>
 
+                        <p th:each="article: ${articles}">
+                            <span th:text="'Date: ' + ${article.date}"></span>
+                            <a  th:text="${article.headline}" th:href="@{/public/article(id=${article.id})}">Headline</a>
+                        </p>
 
+                        <h2>Employee list</h2>
+                        <table>
+                            <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Name Surname</th>
+                                <th> Personal number</th>
+                                <th>Note</th>
+                            </tr>
+                            </thead>
+                            <tbody th:remove="all-but-first">
+                            <tr th:each="empl,iterStat : ${employeeList}">
+                                <td th:unless="${#lists.isEmpty(employeeList)}" th:text="${iterStat.count}">1</td>
+                                <td>
+                                    <a th:text="${empl.firstName} + ' ' + ${empl.lastName}" href="#" th:href="@{/articles(searchAuthor=${empl.personId})}"> Karl Karlsson </a>
+                                </td>
+                                <td th:text="${empl.personalNumber}">19001010-1234</td>
+                                <td th:text="${empl.note}">Animals</td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td>John Johnsson</td>
+                                <td>19002020-1234</td>
+                                <td>Sport</td>
+                            </tr>
+                            <tr>
+                                <td>3</td>
+                                <td>Jan Jansson</td>
+                                <td>19880505-1234</td>
+                                <td>Celebs</td>
+                            </tr>
+                            <tr>
+                                <td>4</td>
+                                <td>Rasmus Rasmusson</td>
+                                <td>19700707-1234</td>
+                                <td>Politics</td>
+                            </tr>
+                            </tbody>
+                        </table>
 
-                </div>
-            </td>
-            <td>
-                <div id="mainright">
-                    <h2 class="articlelist">Subcategories: </h2>
-                    <ol class="sidelist" th:remove="all-but-first" th:each="subcat: ${subcats}">
-                        <li> <a href="main.html" th:text ="${subcat.value}" th:href="@{/articles(subcat=${subcat.value})}">Coffee</a></li>
-                        <li>Tea</li>
-                        <li>Milk</li>
-                    </ol>
-                </div>
-            </td>
-        </tr>
-    </table>
-</div>
+                        <p><h2>Add new author</h2></p>
+                        <form th:action="@{/admin/adminpanel}" th:object="${new_author}" method="post">
+                            <table style="border:none; padding: 10px">
+                                <tr>
+                                    <td>
+                                        First name:
+                                    </td>
+                                    <td>
+                                        <input class="new_article" name="firstname" th:field="*{firstName}" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        Last name:
+                                    </td>
+                                    <td>
+                                        <input  class="new_article" name="lastname"  th:field="*{lastName}" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        Personal Number:
+                                    </td>
+                                    <td>
+                                        <input  class="new_article" name="pn" th:field="*{personalNumber}" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        Note:
+                                    </td>
+                                    <td>
+                                        <input  class="new_article" name="note" th:field="*{note}" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td><input type="submit" value="Add"/></td>
+                                </tr>
+                            </table>
+
+                        </form>
+
+                    </div>
+                </td>
+
+                <td w3-include-html="../fragments/right.html" id="mainright" th:replace="fragments/right :: right"> </td>
+
+            </tr>
+        </table>
+    </div>
+
+    <footer w3-include-html="../fragments/footer.html" id="footer" th:replace="fragments/footer :: footer"></footer>
+
+<script>
+    w3.includeHTML();
+</script>
+
 </body>
 </html>

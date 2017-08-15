@@ -14,7 +14,6 @@ import se.mah.business.entities.Picture;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by aliona on 2017-05-12.
@@ -23,7 +22,7 @@ import java.util.Map;
 @Controller
 public class AppController {
     @Autowired
-    private PersonRepository persons;
+    private PersonRepository personRepo;
     @Autowired
     private ArticleRepository articles;
     @Autowired
@@ -31,35 +30,40 @@ public class AppController {
     @Autowired
     private CategoryRepository categories;
     @Autowired
-    private PictureRepository pictures;
+    private PictureRepository pictureRepo;
 
     @RequestMapping(value = "/")
     public String index(Model model) {
-        List<Article> articlesList = articles.getArticlesList();
-        model = prepareModelSides(model);
+        List<Article> articlesList = articles.getLatestArticles();
+        model = preparePageSides(model);
         model.addAttribute("articles", articlesList);
-
+        model.addAttribute("page_head", "Latest news");
         return "public/main";
     }
 
     @RequestMapping(value= "/articles")
-    public String showByCat(@RequestParam(value="maincat", required = false) String maincat, Model modelMain,
-                            @RequestParam(value="subcat", required = false) String subcat, Model modelSub,
+    public String showByCat(@RequestParam(value="mainCat", required = false) String maincat, Model modelMain,
+                            @RequestParam(value="subCat", required = false) String subcat, Model modelSub,
                             @RequestParam(value="searchAuthor", required = false) String authorId, Model modelAuthor){
         if (authorId != null && !authorId.equals("")) {
-            modelAuthor = prepareModelSides(modelAuthor);
+            modelAuthor = preparePageSides(modelAuthor);
             List<Article> articlesAuthor = articles.getArticlesByAuthor(authorId);
+            Person author = personRepo.getPerson(authorId);
             modelAuthor.addAttribute("articles", articlesAuthor);
+            modelAuthor.addAttribute("page_head",
+                                     "Articles by: " + author.getFirstName() + " " + author.getLastName());
             return "public/main";
         } else if (maincat != null && !maincat.equals("")) {
-            modelMain = prepareModelSides(modelMain);
+            modelMain = preparePageSides(modelMain);
             List<Article> articlesMain = articles.getArticlesByMainCat(maincat);
             modelMain.addAttribute("articles", articlesMain);
+            modelMain.addAttribute("page_head", "Main category: " + maincat);
             return "public/main";
         } else {
-            modelSub = prepareModelSides(modelSub);
+            modelSub = preparePageSides(modelSub);
             List<Article> articlesSub = articles.getArticlesBySubCat(subcat);
             modelSub.addAttribute("articles", articlesSub);
+            modelSub.addAttribute("page_head", "Subcategory: " + subcat);
             return "public/main";
         }
     }
@@ -68,8 +72,12 @@ public class AppController {
     public String article(@RequestParam(value="id") String articleID,  Model model,
                           @RequestParam(value="deleteComment", required = false) String commentId) {
         if (commentId == null || commentId.equals("")) {
-            model = prepareModelSides(model);
+            model = preparePageSides(model);
             Article article = articles.getArticle(articleID);
+            article.setPictures(pictureRepo.getPictureList(articleID));
+            article.setAuthors(personRepo.getArticleAuthors(articleID));
+            article = insertImages(article);
+
             List<Comment> commentsList = comments.getComments(articleID);
             model.addAttribute("article", article);
             model.addAttribute("comments", commentsList);
@@ -83,58 +91,85 @@ public class AppController {
 
     @RequestMapping(value = "/public/article", method = RequestMethod.POST)
     public String postComment(@RequestParam(value="id") String articleID, Comment comment) {
-        System.out.println("Reached the post comment method");
         java.util.Date utilDate = new java.util.Date();
         java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
-        comment.setComment_date(sqlDate);
-        comment.setArticle_id(articleID);
+        comment.setCommentDate(sqlDate);
+        comment.setArticleId(articleID);
         comments.postComment(comment);
         return "redirect:/public/article?id="+articleID;
-    }
-
-    @RequestMapping(value = "/user/new-article", method = RequestMethod.POST)
-    public String postArticle(@RequestParam Article article, Picture picture) {
-        java.util.Date utilDate = new java.util.Date();
-        java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
-        int pic_id = pictures.postNewPicture(picture);
-        int article_id = articles.postNewArticle(article);
-        pictures.addPictureToArticle(article_id, pic_id, article.getImgDescription());
-        return "redirect:/public/article?id=0";
     }
 
     @RequestMapping(value="/admin/adminpanel", method = RequestMethod.GET)
     public String adminPanel(Model model) {
         List<Article> articlesList = articles.getArticlesList();
-        List<Person> employees = persons.getEmployees();
-        model = prepareModelSides(model);
+        List<Person> employees = personRepo.getEmployees();
+        model = preparePageSides(model);
         model.addAttribute("articles", articlesList);
         model.addAttribute("employeeList", employees);
+        model.addAttribute("new_author", new Person());
         return "admin/adminpanel";
+    }
+
+    @RequestMapping(value="/admin/adminpanel", method = RequestMethod.POST)
+    public String addNewAuthor( Person author) {
+        personRepo.addNewAuthor(author);
+        return "redirect:/admin/adminpanel";
     }
 
     @RequestMapping(value="/user/authorpanel", method = RequestMethod.GET)
     public String authorPanel(Model model) {
-        List<Article> articlesList = articles.getArticlesList();
-        List<Person> authors = persons.getEmployees(); //TODO: change to no-PN method later
-        model = prepareModelSides(model);
-        model.addAttribute("articles", articlesList);
-        model.addAttribute("authors", authors);
-        model.addAttribute("article", new Article());
-        model.addAttribute("picture", new Picture());
+//        List<Article> articlesList = articles.getArticlesList();
+        List<Person> authors = personRepo.getEmployees(); //TODO: change to no-PN method later
+        model = preparePageSides(model);
+//        model.addAttribute("articles", articlesList);
+        model.addAttribute("found_authors", authors);
+        model.addAttribute("article", new Article(2, 3));
         return "user/authorpanel";
+    }
+
+    @RequestMapping(value = "/user/new-article", method = RequestMethod.POST)
+    public String postArticle(Article article) {
+        int articleId = articles.postNewArticle(article);
+        personRepo.addAuthorsToArticle(article.getAuthors(), articleId);
+        for (Picture pic : article.getPictures()) {
+            if (pic.getUrl() != null && !pic.getUrl().equals("")) {
+                int picId = pictureRepo.postNewPicture(pic);
+                pictureRepo.addArticlePicture(articleId, picId, pic.getDescriptionForArticle());
+            }
+        }
+        return "redirect:/public/article?id="+articleId;
     }
 
     @RequestMapping(value = "/public/login")
     public String login(Model model) {
-        model = prepareModelSides(model);
+        model = preparePageSides(model);
         return "public/login";
     }
 
-    private Model prepareModelSides(Model model) {
+    private Model preparePageSides(Model model) {
         List<String> mainCats = categories.getMainCategories();
         HashMap<Integer,String> subCats = categories.getSubCategories();
         model.addAttribute("maincats", mainCats);
         model.addAttribute("subcats", subCats);
         return model;
+    }
+
+    private Article insertImages(Article article) {
+        String articleBody = article.getBody();
+        List<Picture> pics = article.getPictures();
+        for (int i = 0; i < article.getPictures().size(); i++) {
+//            Pattern pattern = Pattern.compile("PIC"+ (i+1));
+//            Matcher matcher = pattern.matcher(articleBody);
+//            articleBody = matcher.replaceFirst("</p><img class=\"articleimg\" src=\"" + article.getImage() + "\" alt=\"" +
+//                    article.getAltimage() + "\"/> <p style=\"text-align:center; font-size:9px\"> <cite>" +
+//                    article.getImgDescription() + "</cite> </p> <p>");
+
+            articleBody = articleBody.replace("PIC_" + (i+1),
+                    "</p><img class=\"articleimg\" src=\"" + pics.get(i).getUrl() + "\" alt=\"" +
+                            pics.get(i).getAlttext() + "\"/> <p style=\"text-align:center; font-size:9px\"> <cite>" +
+                            pics.get(i).getDescriptionForArticle() + "</cite> </p> <p>");
+        }
+        article.setBody(articleBody);
+        return article;
     }
 }

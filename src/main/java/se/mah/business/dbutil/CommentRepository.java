@@ -22,10 +22,10 @@ public class CommentRepository {
 
     public int postComment(Comment comment) {
         return jdbc.update("INSERT into user_comment(article_id, nickname, comment_text, comment_date) VALUES (?, ?, ?, ?)",
-                Integer.parseInt(comment.getArticle_id()),
+                Integer.parseInt(comment.getArticleId()),
                 comment.getNickname(),
-                comment.getComment_text(),
-                comment.getComment_date()
+                comment.getCommentText(),
+                comment.getCommentDate()
                 );
     }
 
@@ -35,7 +35,8 @@ public class CommentRepository {
 
     public List<Comment> getComments(String articleId) {
         int id = Integer.parseInt(articleId);
-        return jdbc.query("SELECT comment_id, nickname, comment_text, comment_date FROM user_comment WHERE article_id=?",
+        return jdbc.query("SELECT comment_id, nickname, comment_text, comment_date FROM user_comment WHERE article_id=? " +
+                        "ORDER BY comment_date ASC",
                 commentsListMapper, id);
     }
 
@@ -44,8 +45,8 @@ public class CommentRepository {
             Comment comment = new Comment();
             comment.setId(rs.getInt("comment_id"));
             comment.setNickname(rs.getString("nickname"));
-            comment.setComment_text(rs.getString("comment_text"));
-            comment.setComment_date(rs.getDate("comment_date"));
+            comment.setCommentText(rs.getString("comment_text"));
+            comment.setCommentDate(rs.getDate("comment_date"));
             return comment;
         }
     };

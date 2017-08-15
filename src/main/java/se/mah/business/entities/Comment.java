@@ -7,13 +7,12 @@ import java.sql.Date;
  */
 public class Comment {
     private int id;
-    private String article_id;
+    private String articleId;
     private String nickname;
-    private String comment_text;
-    private Date comment_date;
+    private String commentText;
+    private Date commentDate;
 
     public Comment() {}
-
 
     public int getId() {
         return id;
@@ -23,13 +22,13 @@ public class Comment {
         this.id = id;
     }
 
-    public String getArticle_id() {
-        return article_id;
+    public String getArticleId() {
+        return articleId;
     }
 
-    public void setArticle_id(String article_id) {
+    public void setArticleId(String articleId) {
 
-        this.article_id = article_id;
+        this.articleId = articleId;
     }
 
     public String getNickname() {
@@ -40,19 +39,19 @@ public class Comment {
         this.nickname = nickname;
     }
 
-    public String getComment_text() {
-        return comment_text;
+    public String getCommentText() {
+        return commentText;
     }
 
-    public void setComment_text(String comment_text) {
-        this.comment_text = comment_text;
+    public void setCommentText(String commentText) {
+        this.commentText = commentText;
     }
 
-    public Date getComment_date() {
-        return comment_date;
+    public Date getCommentDate() {
+        return commentDate;
     }
 
-    public void setComment_date(Date comment_date) {
-        this.comment_date = comment_date;
+    public void setCommentDate(Date commentDate) {
+        this.commentDate = commentDate;
     }
 }

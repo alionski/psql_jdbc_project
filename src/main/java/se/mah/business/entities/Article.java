@@ -1,4 +1,6 @@
 package se.mah.business.entities;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by aliona on 2017-05-12.
@@ -9,17 +11,25 @@ public class Article {
     private String headline;
     private String body;
     private String date;
-    private String imgDescription;
-    private String subcat;
-    private String maincat;
-    private String image;
-    private String altimage;
-    private long authorId;
-    private String authorName;
-    private String authorSurname;
+    private String subCat;
+    private String mainCat;
     private int subcatId;
+    private List<Picture> pictures;
+    private List<Person> authors;
 
     public Article() { }
+
+    public Article(int numAuthors, int numPics) {
+        authors = new ArrayList<>();
+        for (int i = 0; i < numAuthors; i++) {
+            authors.add(new Person());
+        }
+
+        pictures = new ArrayList<>();
+        for (int i = 0; i < numPics; i++) {
+            pictures.add(new Picture());
+        }
+    }
 
     public int getSubcatId() {
         return subcatId;
@@ -28,31 +38,6 @@ public class Article {
     public void setSubcatId(int subcatId) {
         this.subcatId = subcatId;
     }
-
-    public long getAuthorId() {
-        return authorId;
-    }
-
-    public void setAuthorId(long authorId) {
-        this.authorId = authorId;
-    }
-
-    public String getAuthorName() {
-        return authorName;
-    }
-
-    public void setAuthorName(String authorName) {
-        this.authorName = authorName;
-    }
-
-    public String getAuthorSurname() {
-        return authorSurname;
-    }
-
-    public void setAuthorSurname(String authorSurname) {
-        this.authorSurname = authorSurname;
-    }
-
 
     public int getId() {
         return id;
@@ -94,43 +79,35 @@ public class Article {
         this.date = date;
     }
 
-    public String getImgDescription() {
-        return imgDescription;
+    public String getSubCat() {
+        return subCat;
     }
 
-    public void setImgDescription(String imgDescription) {
-        this.imgDescription = imgDescription;
+    public void setSubCat(String subCat) {
+        this.subCat = subCat;
     }
 
-    public String getSubcat() {
-        return subcat;
+    public String getMainCat() {
+        return mainCat;
     }
 
-    public void setSubcat(String subcat) {
-        this.subcat = subcat;
+    public void setMainCat(String mainCat) {
+        this.mainCat = mainCat;
     }
 
-    public String getMaincat() {
-        return maincat;
+    public List<Person> getAuthors() {
+        return authors;
     }
 
-    public void setMaincat(String maincat) {
-        this.maincat = maincat;
+    public void setAuthors(List<Person> authors) {
+        this.authors = authors;
     }
 
-    public String getImage() {
-        return image;
+    public List<Picture> getPictures() {
+        return pictures;
     }
 
-    public void setImage(String image) {
-        this.image = image;
-    }
-
-    public String getAltimage() {
-        return altimage;
-    }
-
-    public void setAltimage(String altimage) {
-        this.altimage = altimage;
+    public void setPictures(List<Picture> pictures) {
+        this.pictures = pictures;
     }
 }
